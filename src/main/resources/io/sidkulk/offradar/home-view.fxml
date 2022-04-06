@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.*?>
+<AnchorPane fx:id="homeAnchorPane" prefHeight="802.0" prefWidth="1099.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.sidkulk.offradar.HomeView">
+   <TableView layoutX="425.0" layoutY="42.0" prefHeight="734.0" prefWidth="659.0">
+      <columns>
+         <TableColumn fx:id="pwdTitleCol" prefWidth="339.0" resizable="false" text="Password Title" />
+         <TableColumn fx:id="pwdValueCol" prefWidth="319.0" resizable="false" text="Password Value" />
+      </columns>
+   </TableView>
+   <Label alignment="CENTER" layoutX="27.0" layoutY="199.0" prefHeight="33.0" prefWidth="149.0" text="Password Title">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Label>
+   <TextField layoutX="176.0" layoutY="196.0" prefHeight="25.0" prefWidth="231.0">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </TextField>
+   <Label alignment="CENTER" layoutX="27.0" layoutY="280.0" prefHeight="33.0" prefWidth="149.0" text="Password Value">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Label>
+   <TextField layoutX="176.0" layoutY="277.0" prefHeight="25.0" prefWidth="231.0">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </TextField>
+   <Button fx:id="addPwdBtn" layoutX="149.0" layoutY="376.0" mnemonicParsing="false" onAction="#addPasswordEntry" prefHeight="45.0" prefWidth="193.0" text="Add Password">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Button>
+   <Button fx:id="updatePwdBtn" layoutX="151.0" layoutY="464.0" mnemonicParsing="false" onAction="#updateSelectedRow" prefHeight="45.0" prefWidth="193.0" text="Update Selected">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Button>
+   <Button fx:id="deletePwdBtn" layoutX="151.0" layoutY="545.0" mnemonicParsing="false" onAction="#deleteSelectedRow" prefHeight="45.0" prefWidth="193.0" text="Delete Selected">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Button>
+   <ToggleButton fx:id="showTabToggleBtn" layoutX="182.0" layoutY="640.0" mnemonicParsing="false" onAction="#showHideToggleAction" prefHeight="39.0" prefWidth="128.0" text="show table">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </ToggleButton>
+   <Button layoutX="151.0" layoutY="721.0" mnemonicParsing="false" onAction="#logUserOut" prefHeight="45.0" prefWidth="193.0" text="Logout">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Button>
+   <Label alignment="CENTER" layoutX="14.0" layoutY="134.0" prefHeight="45.0" prefWidth="404.0" text="(Tip: Click the &quot;Show table&quot; button to un-hide your passwords)">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <Label alignment="CENTER" layoutX="14.0" layoutY="66.0" prefHeight="39.0" prefWidth="84.0" text="User:">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Label>
+   <Label fx:id="usernameLabel" layoutX="108.0" layoutY="66.0" prefHeight="39.0" prefWidth="217.0">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Label>
+</AnchorPane>
