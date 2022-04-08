@@ -40,7 +40,7 @@ public class RecoveryView {
         } else {
             boolean isUserPresentInDatabase = UserRecoveryService.doesAccountExists(nicknameTxt.getText(), schoolnameTxt.getText());
             if(isUserPresentInDatabase) {
-                System.out.println("USER FOUND!");
+//                System.out.println("USER FOUND!");
                 recoveredUsername.setText(UserRecoveryService.getRecoverdUsername());
                 recoveredPassword.setText(UserRecoveryService.getRecoveredPasswordHash());
                 logUserInBtn.setDisable(false);

@@ -17,7 +17,7 @@ public class DatabaseService {
         try {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection(URL);
-            System.out.println("db connected!");
+//            System.out.println("db connected!");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -28,7 +28,7 @@ public class DatabaseService {
             Statement stmt = connection.createStatement();
             stmt.execute(DatabaseSchemaServer.CREATE_USER_TAB_QUERY);
             stmt.execute(DatabaseSchemaServer.CREATE_PASSWORD_TAB_QUERY);
-            System.out.println("tables created");
+//            System.out.println("tables created");
         } catch (SQLException e) {
             e.printStackTrace();
         }
