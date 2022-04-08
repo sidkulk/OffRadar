@@ -11,7 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 public class LoginView {
-    //    private UserAccountService appServer;
     private UserAuthService userAuthService;
 
     @FXML
@@ -40,7 +39,7 @@ public class LoginView {
 
     @FXML
     void goToRecoveryPage(ActionEvent event) {
-
+        WindowChangeRoutine.showRecoveryPage(loginAnchorPane);
     }
 
     @FXML

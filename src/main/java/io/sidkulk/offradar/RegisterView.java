@@ -67,7 +67,6 @@ public class RegisterView {
 
     @FXML
     void registerUser(ActionEvent event) throws IOException {
-        System.out.println("Yet to be implemented");
         String username = usernameTxt.getText();
         String email = emailTxt.getText();
         String password = pwdTxt.getText();

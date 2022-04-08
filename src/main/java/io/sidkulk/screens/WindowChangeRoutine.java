@@ -55,6 +55,21 @@ public class WindowChangeRoutine {
         stage.show();
     }
 
+    public static void showRecoveryPage(AnchorPane rootpane) {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(Main.class.getResource("recovery-view.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = (Stage) rootpane.getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setResizable(false);
+        stage.setTitle("Login");
+        stage.setScene(scene);
+        stage.show();
+    }
+
     public static void showRegisterPage(AnchorPane rootpane) {
         Parent root = null;
         try {
