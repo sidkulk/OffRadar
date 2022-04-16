@@ -4,6 +4,8 @@ import io.sidkulk.encryption.UserInformationEncryptionService;
 import io.sidkulk.model.Password;
 import io.sidkulk.services.database.DatabaseSchemaServer;
 import io.sidkulk.services.database.DatabaseService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ public class CoreApplicationServices {
         String query = "INSERT INTO " + DatabaseSchemaServer.PASSWORD_TAB_NAME
                 + "(passwordtitle, passwordvalue, username) VALUES(?, ?, ?)";
         try {
-            if (connection == null) {
+            if (connection.isClosed()) {
                 connection = DriverManager.getConnection(DatabaseService.getConnectionURL());
             }
 
@@ -56,7 +58,7 @@ public class CoreApplicationServices {
     public boolean removePasswordEntry(int p_id) {
         String query = "DELETE FROM " + DatabaseSchemaServer.PASSWORD_TAB_NAME + " WHERE p_id = ?";
         try {
-            if (connection == null) {
+            if (connection.isClosed()) {
                 connection = DriverManager.getConnection(DatabaseService.getConnectionURL());
             }
             pstmt = connection.prepareStatement(query);
@@ -79,7 +81,7 @@ public class CoreApplicationServices {
         String query = "UPDATE " + DatabaseSchemaServer.PASSWORD_TAB_NAME
                 + " SET passwordtitle = ?, passwordvalue = ? WHERE p_id = ?";
         try {
-            if (connection == null) {
+            if (connection.isClosed()) {
                 connection = DriverManager.getConnection(DatabaseService.getConnectionURL());
             }
             pstmt = connection.prepareStatement(query);
@@ -102,51 +104,73 @@ public class CoreApplicationServices {
         }
     }
 
-    public List<Password> showPasswordForUsername(String username) {
-        String query = "SELECT * FROM " + DatabaseSchemaServer.PASSWORD_TAB_NAME + " WHERE username = ?";
-        userPasswordList.clear();
+//    public List<Password> showPasswordForUsername(String username) {
+//        String query = "SELECT * FROM " + DatabaseSchemaServer.PASSWORD_TAB_NAME + " WHERE username = ?";
+//        userPasswordList.clear();
+//        try {
+//            if (connection.isClosed()) {
+//                connection = DriverManager.getConnection(DatabaseService.getConnectionURL());
+//            }
+//            pstmt = connection.prepareStatement(query);
+//            pstmt.setString(1, username);
+//            return getPasswords();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
+//
+//    private List<Password> getPasswords() throws SQLException {
+//        ResultSet resultSet = pstmt.executeQuery();
+//
+//        while (resultSet.next()) {
+//            userPasswordList.add(new Password(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3)));
+//        }
+//
+//        if (userPasswordList.isEmpty()) {
+//            return null;
+//        }
+//        if (!connection.isClosed()) {
+//            connection.close();
+//        }
+//        return userPasswordList;
+//    }
+
+//    public List<Password> showAllPasswordEntriesInDatabase() {
+//        userPasswordList.clear();
+//        String query = "SELECT * FROM " + DatabaseSchemaServer.PASSWORD_TAB_NAME;
+//
+//        try {
+//            if (connection.isClosed()) {
+//                connection = DriverManager.getConnection(DatabaseService.getConnectionURL());
+//            }
+//            pstmt = connection.prepareStatement(query);
+//            return getPasswords();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
+
+    public ObservableList<Password> getPasswordListForLoggedInUser(String username) {
+        ObservableList<Password> passwordList = FXCollections.observableArrayList();
+
+        String query = "SELECT passwordtitle, passwordvalue FROM " + DatabaseSchemaServer.PASSWORD_TAB_NAME + " WHERE username = ?";
+
         try {
-            if (connection == null) {
+            if(connection.isClosed()) {
                 connection = DriverManager.getConnection(DatabaseService.getConnectionURL());
             }
             pstmt = connection.prepareStatement(query);
             pstmt.setString(1, username);
-            return getPasswords();
+            ResultSet resultSet = pstmt.executeQuery();
+            do {
+                passwordList.add(new Password(resultSet.getString("passwordtitle"), resultSet.getString("passwordvalue")));
+            } while (resultSet.next());
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
-        }
-    }
-
-    private List<Password> getPasswords() throws SQLException {
-        ResultSet resultSet = pstmt.executeQuery();
-
-        while (resultSet.next()) {
-            userPasswordList.add(new Password(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3)));
         }
 
-        if (userPasswordList.isEmpty()) {
-            return null;
-        }
-        if (!connection.isClosed()) {
-            connection.close();
-        }
-        return userPasswordList;
-    }
-
-    public List<Password> showAllPasswordEntriesInDatabase() {
-        userPasswordList.clear();
-        String query = "SELECT * FROM " + DatabaseSchemaServer.PASSWORD_TAB_NAME;
-
-        try {
-            if (connection == null) {
-                connection = DriverManager.getConnection(DatabaseService.getConnectionURL());
-            }
-            pstmt = connection.prepareStatement(query);
-            return getPasswords();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        return passwordList;
     }
 }

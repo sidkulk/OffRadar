@@ -68,7 +68,6 @@ public class HomeView implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        System.out.println("Home screen called!");
         this.usernameLabel.setText(LoggedInUserDataStore.getCurrentUsername());
     }
 }
