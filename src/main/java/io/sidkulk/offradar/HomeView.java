@@ -1,20 +1,20 @@
 package io.sidkulk.offradar;
 
 import io.sidkulk.screens.WindowChangeRoutine;
+import io.sidkulk.services.core.CoreApplicationServices;
 import io.sidkulk.userCache.LoggedInUserDataStore;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class HomeView implements Initializable {
+
+    private CoreApplicationServices coreApplicationServices;
 
     @FXML
     private Button addPwdBtn;
@@ -26,10 +26,10 @@ public class HomeView implements Initializable {
     private Button deletePwdBtn;
 
     @FXML
-    private TableColumn<?, ?> pwdTitleCol;
+    private TableColumn pwdTitleCol;
 
     @FXML
-    private TableColumn<?, ?> pwdValueCol;
+    private TableColumn pwdValueCol;
 
     @FXML
     private ToggleButton showTabToggleBtn;
@@ -39,6 +39,9 @@ public class HomeView implements Initializable {
 
     @FXML
     private Label usernameLabel;
+
+    @FXML
+    private TableView<?> passTableView;
 
     @FXML
     void addPasswordEntry(ActionEvent event) {
@@ -68,7 +71,13 @@ public class HomeView implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        System.out.println("Home screen called!");
         this.usernameLabel.setText(LoggedInUserDataStore.getCurrentUsername());
+        passTableView = new TableView<>();
+        pwdTitleCol = new TableColumn("Password Title");
+        pwdValueCol = new TableColumn("Password Value");
+
+        passTableView.getColumns().addAll(pwdTitleCol, pwdValueCol);
+
+
     }
 }
