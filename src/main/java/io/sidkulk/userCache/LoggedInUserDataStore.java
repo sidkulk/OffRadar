@@ -4,9 +4,14 @@ import io.sidkulk.model.CurrentUser;
 
 public class LoggedInUserDataStore {
     private static CurrentUser loggedInUser;
+    private static String privateKeyOfUser;
 
     public static void setCurrentlyLoggedInUserData(CurrentUser currentlyLoggedInUserData) {
         loggedInUser = currentlyLoggedInUserData;
+    }
+
+    public static void setCurrentlyLoggedInUserPrivateKey(String privateKey) {
+        privateKeyOfUser = privateKey;
     }
 
     public static String getCurrentUsername() {
@@ -16,30 +21,15 @@ public class LoggedInUserDataStore {
         return loggedInUser.getUsername();
     }
 
-    public static UserRecoveryClass getUserRecoveryData() {
-        return new UserRecoveryClass(loggedInUser.getNickname(), loggedInUser.getChildhoodSchoolName());
+    public static String getCurrentUserPrivateKey() {
+        if(privateKeyOfUser == null) {
+            return "null";
+        }
+        return privateKeyOfUser;
     }
 
     public static void clearCurrentlyLoggedInUserData() {
         loggedInUser = null;
         System.gc();
-    }
-
-    private static class UserRecoveryClass {
-        private String userNickName;
-        private String userChildhoodSchool;
-
-        UserRecoveryClass(String userChildhoodName, String userChildhoodSchool) {
-            this.userNickName = loggedInUser.getNickname();
-            this.userChildhoodSchool = loggedInUser.getChildhoodSchoolName();
-        }
-
-        private String getUserChildhoodSchool() {
-            return this.userChildhoodSchool;
-        }
-
-        private String getUserNickName() {
-            return this.userNickName;
-        }
     }
 }

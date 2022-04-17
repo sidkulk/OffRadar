@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 public class DatabaseService {
     private static Connection connection;
-    private static final String URL = "jdbc:sqlite:PassKeep.db";
+    private static final String URL = "jdbc:sqlite:src/main/resources/PassKeep.db";
 
     public static String getConnectionURL() {
         return URL;
@@ -17,7 +17,6 @@ public class DatabaseService {
         try {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection(URL);
-//            System.out.println("db connected!");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -28,7 +27,6 @@ public class DatabaseService {
             Statement stmt = connection.createStatement();
             stmt.execute(DatabaseSchemaServer.CREATE_USER_TAB_QUERY);
             stmt.execute(DatabaseSchemaServer.CREATE_PASSWORD_TAB_QUERY);
-//            System.out.println("tables created");
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -37,11 +37,31 @@ public class UserAuthService {
                     connection.close();
                 }
                 LoggedInUserDataStore.setCurrentlyLoggedInUserData(getCurrentLoggedInUserInfo(username));
+                LoggedInUserDataStore.setCurrentlyLoggedInUserPrivateKey(getLoggedUserPrivateKey(connection, username));
                 return hashService.verifyPassword(passwordEntered, returnedHash);
             }
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    private static String getLoggedUserPrivateKey(Connection connection, String username) {
+        String query = "SELECT privatekey FROM " + DatabaseSchemaServer.USER_TAB_NAME + " WHERE username = ?";
+        try {
+            if (connection.isClosed()) {
+                connection = DriverManager.getConnection(DatabaseService.getConnectionURL());
+            }
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            do {
+                return resultSet.getString("privatekey");
+            } while (resultSet.next());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
