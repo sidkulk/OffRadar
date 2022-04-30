@@ -104,54 +104,6 @@ public class CoreApplicationServices {
         }
     }
 
-//    public List<Password> showPasswordForUsername(String username) {
-//        String query = "SELECT * FROM " + DatabaseSchemaServer.PASSWORD_TAB_NAME + " WHERE username = ?";
-//        userPasswordList.clear();
-//        try {
-//            if (connection.isClosed()) {
-//                connection = DriverManager.getConnection(DatabaseService.getConnectionURL());
-//            }
-//            pstmt = connection.prepareStatement(query);
-//            pstmt.setString(1, username);
-//            return getPasswords();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
-//
-//    private List<Password> getPasswords() throws SQLException {
-//        ResultSet resultSet = pstmt.executeQuery();
-//
-//        while (resultSet.next()) {
-//            userPasswordList.add(new Password(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3)));
-//        }
-//
-//        if (userPasswordList.isEmpty()) {
-//            return null;
-//        }
-//        if (!connection.isClosed()) {
-//            connection.close();
-//        }
-//        return userPasswordList;
-//    }
-
-//    public List<Password> showAllPasswordEntriesInDatabase() {
-//        userPasswordList.clear();
-//        String query = "SELECT * FROM " + DatabaseSchemaServer.PASSWORD_TAB_NAME;
-//
-//        try {
-//            if (connection.isClosed()) {
-//                connection = DriverManager.getConnection(DatabaseService.getConnectionURL());
-//            }
-//            pstmt = connection.prepareStatement(query);
-//            return getPasswords();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
-
     public ObservableList<Password> getPasswordListForLoggedInUser(String username) {
         ObservableList<Password> passwordList = FXCollections.observableArrayList();
 

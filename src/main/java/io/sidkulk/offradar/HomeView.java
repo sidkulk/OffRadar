@@ -1,5 +1,6 @@
 package io.sidkulk.offradar;
 
+import io.sidkulk.model.Password;
 import io.sidkulk.screens.WindowChangeRoutine;
 import io.sidkulk.services.core.CoreApplicationServices;
 import io.sidkulk.userCache.LoggedInUserDataStore;
@@ -26,10 +27,10 @@ public class HomeView implements Initializable {
     private Button deletePwdBtn;
 
     @FXML
-    private TableColumn pwdTitleCol;
+    private TableColumn<Password, String> pwdTitleCol;
 
     @FXML
-    private TableColumn pwdValueCol;
+    private TableColumn<Password, String> pwdValueCol;
 
     @FXML
     private ToggleButton showTabToggleBtn;
@@ -41,7 +42,7 @@ public class HomeView implements Initializable {
     private Label usernameLabel;
 
     @FXML
-    private TableView<?> passTableView;
+    private TableView<Password> passTableView;
 
     @FXML
     void addPasswordEntry(ActionEvent event) {
