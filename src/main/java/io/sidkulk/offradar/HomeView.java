@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
@@ -78,7 +79,7 @@ public class HomeView implements Initializable {
         pwdValueCol = new TableColumn("Password Value");
 
         passTableView.getColumns().addAll(pwdTitleCol, pwdValueCol);
-
-
+        pwdTitleCol.setCellValueFactory(new PropertyValueFactory<>("PasswordTitle"));
+        pwdValueCol.setCellValueFactory(new PropertyValueFactory<>("PasswordValue"));
     }
 }
