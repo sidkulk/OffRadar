@@ -21,7 +21,7 @@
          <Font size="18.0" />
       </font>
    </Label>
-   <TextField layoutX="176.0" layoutY="196.0" prefHeight="25.0" prefWidth="231.0">
+   <TextField fx:id="pwdTitle" layoutX="176.0" layoutY="196.0" prefHeight="25.0" prefWidth="231.0">
       <font>
          <Font size="18.0" />
       </font>
@@ -31,7 +31,7 @@
          <Font size="18.0" />
       </font>
    </Label>
-   <TextField layoutX="176.0" layoutY="277.0" prefHeight="25.0" prefWidth="231.0">
+   <TextField fx:id="pwdValue" layoutX="176.0" layoutY="277.0" prefHeight="25.0" prefWidth="231.0">
       <font>
          <Font size="18.0" />
       </font>
