@@ -13,9 +13,6 @@ import java.sql.ResultSet;
 
 public class UserAuthService {
     private HashingServiceClass hashService;
-    private static String usernameCurrentlyLoggedIn = "";
-    private static boolean isCorrect = false;
-
     public boolean verifyUserLogin(String username, String passwordEntered) {
         String query = "SELECT passwordhash FROM " + DatabaseSchemaServer.USER_TAB_NAME + " WHERE username = ?";
         if (hashService == null) {
@@ -33,9 +30,6 @@ public class UserAuthService {
             if (returnedHash == null) {
                 throw new IllegalStateException("User with username: " + username + " does not exists!");
             } else {
-                if (!connection.isClosed()) {
-                    connection.close();
-                }
                 LoggedInUserDataStore.setCurrentlyLoggedInUserData(getCurrentLoggedInUserInfo(username));
                 LoggedInUserDataStore.setCurrentlyLoggedInUserPrivateKey(getLoggedUserPrivateKey(connection, username));
                 return hashService.verifyPassword(passwordEntered, returnedHash);

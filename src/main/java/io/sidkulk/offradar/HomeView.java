@@ -4,6 +4,7 @@ import io.sidkulk.model.Password;
 import io.sidkulk.screens.WindowChangeRoutine;
 import io.sidkulk.services.core.CoreApplicationServices;
 import io.sidkulk.userCache.LoggedInUserDataStore;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -47,12 +48,14 @@ public class HomeView implements Initializable {
 
     @FXML
     void addPasswordEntry(ActionEvent event) {
-
+    	System.out.println("Add password action event called");
+    	
     }
 
     @FXML
     void deleteSelectedRow(ActionEvent event) {
-
+    	System.out.println("Delete password action event called");
+    	
     }
 
     @FXML
@@ -63,23 +66,35 @@ public class HomeView implements Initializable {
 
     @FXML
     void showHideToggleAction(ActionEvent event) {
-
+    	System.out.println("Show password action event called");
+    	
     }
 
     @FXML
     void updateSelectedRow(ActionEvent event) {
-
+    	System.out.println("Update password action event called");
+    	
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.usernameLabel.setText(LoggedInUserDataStore.getCurrentUsername());
+        ObservableList<Password> passList = coreApplicationServices.getPasswordListForLoggedInUser(LoggedInUserDataStore.getCurrentUsername());
         passTableView = new TableView<>();
-        pwdTitleCol = new TableColumn("Password Title");
-        pwdValueCol = new TableColumn("Password Value");
+        pwdTitleCol = new TableColumn<>("Password Title");
+        pwdValueCol = new TableColumn<>("Password Value");
 
-        passTableView.getColumns().addAll(pwdTitleCol, pwdValueCol);
-        pwdTitleCol.setCellValueFactory(new PropertyValueFactory<>("PasswordTitle"));
-        pwdValueCol.setCellValueFactory(new PropertyValueFactory<>("PasswordValue"));
+        try {
+        	coreApplicationServices = new CoreApplicationServices(LoggedInUserDataStore.getCurrentUserPrivateKey());
+			passTableView.getColumns().addAll(pwdTitleCol, pwdValueCol);
+			pwdTitleCol.setCellValueFactory(new PropertyValueFactory<>("PasswordTitle"));
+			pwdValueCol.setCellValueFactory(new PropertyValueFactory<>("PasswordValue"));
+			passTableView.setItems(passList);
+			
+			System.out.println(passList.getClass());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 }

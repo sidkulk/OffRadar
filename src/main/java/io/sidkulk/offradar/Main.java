@@ -12,7 +12,7 @@ import java.util.Objects;
 public class Main extends Application {
     private static DatabaseService databaseServer;
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(@SuppressWarnings("exports") Stage stage) throws Exception {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login-view.fxml")));
         Scene scene = new Scene(root);
         stage.setScene(scene);

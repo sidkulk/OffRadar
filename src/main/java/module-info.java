@@ -9,6 +9,7 @@ module io.sidkulk.offradar {
     requires org.kordamp.bootstrapfx.core;
     requires org.apache.commons.codec;
     requires java.sql;
+	requires javafx.graphics;
 
     opens io.sidkulk.offradar to javafx.fxml;
     exports io.sidkulk.offradar;
