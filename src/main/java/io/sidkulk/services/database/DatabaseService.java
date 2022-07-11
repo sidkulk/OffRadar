@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseService {
-    public static Connection connection;
+    public static Connection connection = null;
     private static final String URL = "jdbc:sqlite:src/main/resources/PassKeep.db";
     private static final String CLASS_FOR_NAME = "org.sqlite.JDBC";
 
@@ -14,14 +14,17 @@ public class DatabaseService {
         return URL;
     }
     
-    public static Connection getConnection() {
+    public static Connection getConnection() throws Exception {
+    	if(connection == null || connection.isClosed()) {
+    		Class.forName(CLASS_FOR_NAME);
+            connection = DriverManager.getConnection(URL);
+    	}
     	return connection;
     }
 
     public void connectToDatabase() {
         try {
-            Class.forName(CLASS_FOR_NAME);
-            connection = DriverManager.getConnection(URL);
+            getConnection();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -65,7 +65,10 @@ public class HomeView implements Initializable {
 		if(passwordTitle.isBlank() || passwordValue.isBlank()) {
 			AlertBoxClass.showErrorAlert("ERROR", "Please fill in all the field(s)!");
 		} else {
-			coreApplicationServices.addNewPasswordEntry(new Password(passwordTitle, passwordValue), LoggedInUserDataStore.getCurrentUsername());
+			boolean isOpsDone = coreApplicationServices.addNewPasswordEntry(new Password(passwordTitle, passwordValue), LoggedInUserDataStore.getCurrentUsername());
+			if(!isOpsDone) {
+				AlertBoxClass.showErrorAlert("Error", "Something went wrong while storing your entry!");
+			}
 		}
 	}
 
@@ -96,6 +99,9 @@ public class HomeView implements Initializable {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
+		if(coreApplicationServices == null) {
+			coreApplicationServices = new CoreApplicationServices(LoggedInUserDataStore.getCurrentUserPrivateKey());
+		}
 		this.usernameLabel.setText(LoggedInUserDataStore.getCurrentUsername());
 		ObservableList<Password> passList = coreApplicationServices
 				.getPasswordListForLoggedInUser(LoggedInUserDataStore.getCurrentUsername());
@@ -104,7 +110,6 @@ public class HomeView implements Initializable {
 		pwdValueCol = new TableColumn<>("Password Value");
 
 		try {
-			coreApplicationServices = new CoreApplicationServices(LoggedInUserDataStore.getCurrentUserPrivateKey());
 			passTableView.getColumns().addAll(pwdTitleCol, pwdValueCol);
 			pwdTitleCol.setCellValueFactory(new PropertyValueFactory<>("PasswordTitle"));
 			pwdValueCol.setCellValueFactory(new PropertyValueFactory<>("PasswordValue"));

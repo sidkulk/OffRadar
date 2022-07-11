@@ -2,7 +2,6 @@ package io.sidkulk.offradar;
 
 import io.sidkulk.screens.WindowChangeRoutine;
 import io.sidkulk.services.alerts.AlertBoxClass;
-import io.sidkulk.services.authservice.UserAuthService;
 import io.sidkulk.services.recovery.UserRecoveryService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,7 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 public class RecoveryView {
-    private UserAuthService userAuthService;
     @FXML
     private Button logUserInBtn;
 

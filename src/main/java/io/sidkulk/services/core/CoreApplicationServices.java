@@ -10,7 +10,6 @@ import javafx.collections.ObservableList;
 import java.sql.*;
 
 public class CoreApplicationServices {
-	private static PreparedStatement pstmt;
 	private static int rowUpdate = 0;
 	private final UserInformationEncryptionService crypto;
 
@@ -22,60 +21,75 @@ public class CoreApplicationServices {
 	public boolean addNewPasswordEntry(Password password, String username) {
 		String query = "INSERT INTO " + DatabaseSchemaServer.PASSWORD_TAB_NAME
 				+ "(passwordtitle, passwordvalue, username) VALUES(?, ?, ?)";
+		Connection connection = null;
 		try {
-			if (DatabaseService.connection.isClosed()) {
-				DatabaseService.connection = DriverManager.getConnection(DatabaseService.getConnectionURL());
-			}
-
-			pstmt = DatabaseService.connection.prepareStatement(query);
+			connection = DriverManager.getConnection(DatabaseService.getConnectionURL());
+			PreparedStatement pstmt = connection.prepareStatement(query);
 			pstmt.setString(1, password.getPasswordTitle());
 			pstmt.setString(2, crypto.encrypt(password.getPasswordValue()));
 			pstmt.setString(3, username);
 
 			rowUpdate = pstmt.executeUpdate();
 			if (rowUpdate > 0) {
+				System.out.println("Password inserted: " + password + " || for user: " + username);
 				return true;
 			}
-			if (!DatabaseService.connection.isClosed()) {
-				DatabaseService.connection.close();
-			}
+			DatabaseService.getConnection().close();
+			return false;
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
 			return false;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
+		} finally {
+			try {
+				if (!connection.isClosed()) {
+					connection.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
 		}
 	}
 
 	public boolean removePasswordEntry(int p_id) {
 		String query = "DELETE FROM " + DatabaseSchemaServer.PASSWORD_TAB_NAME + " WHERE p_id = ?";
+		Connection connection = null;
 		try {
-			if (DatabaseService.connection.isClosed()) {
-				DatabaseService.connection = DriverManager.getConnection(DatabaseService.getConnectionURL());
-			}
-			pstmt = DatabaseService.connection.prepareStatement(query);
+			connection = DriverManager.getConnection(DatabaseService.getConnectionURL());
+			PreparedStatement pstmt = connection.prepareStatement(query);
 			pstmt.setInt(1, p_id);
 			rowUpdate = pstmt.executeUpdate();
 			if (rowUpdate > 0) {
 				return true;
 			}
-			if (!DatabaseService.connection.isClosed()) {
-				DatabaseService.connection.close();
-			}
+			DatabaseService.getConnection().close();
+			return false;
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
 			return false;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
+		} finally {
+			try {
+				if (!connection.isClosed()) {
+					connection.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
 		}
 	}
 
 	public boolean updateSelectedEntry(int p_id, String passwordTitleUpdated, String passwordValueUpdated) {
 		String query = "UPDATE " + DatabaseSchemaServer.PASSWORD_TAB_NAME
 				+ " SET passwordtitle = ?, passwordvalue = ? WHERE p_id = ?";
+		Connection connection = null;
 		try {
-			if (DatabaseService.connection.isClosed()) {
-				DatabaseService.connection = DriverManager.getConnection(DatabaseService.getConnectionURL());
-			}
-			pstmt = DatabaseService.connection.prepareStatement(query);
+			connection = DriverManager.getConnection(DatabaseService.getConnectionURL());
+			PreparedStatement pstmt = connection.prepareStatement(query);
 			pstmt.setString(1, passwordTitleUpdated);
 			pstmt.setString(2, crypto.encrypt(passwordValueUpdated));
 			pstmt.setInt(3, p_id);
@@ -85,13 +99,22 @@ public class CoreApplicationServices {
 			if (rowUpdate > 0) {
 				return true;
 			}
-			if (!DatabaseService.connection.isClosed()) {
-				DatabaseService.connection.close();
-			}
+			DatabaseService.getConnection().close();
+			return false;
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
 			return false;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
+		} finally {
+			try {
+				if (!connection.isClosed()) {
+					connection.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
 		}
 
 	}
@@ -102,8 +125,9 @@ public class CoreApplicationServices {
 		String query = "SELECT passwordtitle, passwordvalue FROM " + DatabaseSchemaServer.PASSWORD_TAB_NAME
 				+ " WHERE username = ?";
 
+		Connection connection = null;
 		try {
-			Connection connection = DriverManager.getConnection(DatabaseService.getConnectionURL());
+			connection = DriverManager.getConnection(DatabaseService.getConnectionURL());
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, username);
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -111,10 +135,23 @@ public class CoreApplicationServices {
 				passwordList
 						.add(new Password(resultSet.getString("passwordtitle"), resultSet.getString("passwordvalue")));
 			}
+			DatabaseService.getConnection().close();
+			if (passwordList.isEmpty()) {
+				System.out.println("Observable list is empty!");
+			}
+		} catch (SQLException sqlException) {
+			sqlException.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if (!connection.isClosed()) {
+					connection.close();
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
 		}
-
 		return passwordList;
 	}
 }
